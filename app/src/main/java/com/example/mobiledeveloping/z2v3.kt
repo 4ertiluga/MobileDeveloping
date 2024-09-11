@@ -18,9 +18,8 @@ fun z2v3() {
         Number = 0
     }
     when(Number1){
-        in 2..5 + 10 -> println("от 2 до 5")
-        in 7..40 - 100 -> println("от 7 до 40")
-        !in 0..3000 *3 -> println("меньше 0 и больше 3000")
+        in 2..5 -> Number1 + 1 100
+        !in 0..3000 -> Number1 * 3
         else -> Number1 = 0
     }
     println("Результат IF:" + Number)
