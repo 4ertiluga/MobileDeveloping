@@ -9,4 +9,6 @@ fun main() {
     z2v3()
     println()
     z2v4()
+    println()
+    z3v3()
 }

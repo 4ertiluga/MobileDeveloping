@@ -18,12 +18,27 @@ fun z2v3() {
         Number = 0
     }
     when(Number1){
-        in 2..5 -> Number1 + 1 100
-        !in 0..3000 -> Number1 * 3
-        else -> Number1 = 0
+        in 2..5 -> {
+            val res = Number1 + 10
+            println("Результат When" + res)
+        }
+        in 7..40 -> {
+            val res = Number1 - 100
+            println("Результат When" + res)
+        }
+        !in 0..3000 -> {
+            val res = Number1 * 3
+            println("Результат When" + res)
+        }
+        else -> {
+            val res = 0
+            println("Результат When" + res)
+        }
+
     }
+
     println("Результат IF:" + Number)
-    println("Результат When" + Number1)
+
 
 
 }
