@@ -13,6 +13,7 @@ fun main() {
     println()
     z3v3() //Бирюков
     println()
+    //задание3
     println("Введите свое число: ")
     val number = readln().toInt()
     if (z3v22(number)) {
