@@ -1,24 +1,15 @@
 package com.example.mobiledeveloping
 
-fun z3v22() {
-    println("Введите свое число: ")
-    val Number = readln().toInt()
+fun z3v22(n:Int):Boolean {
 
-    if(Number == 2)
-    {
-        println("Ваше число простое")
-    }
 
-    if(Number % 2 == 0)
-    {
-        println("Ваше число не простое")
+    if (n <= 1) return false
+    if (n == 2) return true
+    if (n % 2 == 0) return false
+
+    for (i in 3..(n / 2) step 2) {
+        if (n % i == 0) return false
     }
-    else if (Number < 2)
-    {
-        println("Ваше число не простое")
-    }
-    else
-    {
-        println("Ваше число простое")
-    }
+    return true
+
 }

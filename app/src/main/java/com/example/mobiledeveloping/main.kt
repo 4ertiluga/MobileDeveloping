@@ -13,7 +13,14 @@ fun main() {
     println()
     z3v3() //Бирюков
     println()
-    z3v22() //Сидаш
+    println("Введите свое число: ")
+    val number = readln().toInt()
+    if (z3v22(number)) {
+        println("$number - простое число")
+    } else {
+        println("$number - не простое число")
+    }
+     //Сидаш
     println()
     z4v3() //Бирюков
     println()
