@@ -42,4 +42,10 @@ fun main() {
         println("Perimeter: ${shape.getPerimeter()}")
         println()
     }
+    println()
+
+    println(l2z1v3(4)) //Бирюков
+    println()
+    val result1 = l2z2v3(150)
+    println(result1)
 }
