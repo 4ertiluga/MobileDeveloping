@@ -48,4 +48,10 @@ fun main() {
     println()
     val result1 = l2z2v3(150)
     println(result1)
+    println()
+    println(l2z1v2(22))
+    println()
+    val resslt1 = l2z2v2(4)
+    println("Результат для 4: $result1")
+
 }
