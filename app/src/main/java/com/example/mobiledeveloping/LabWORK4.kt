@@ -1,5 +1,4 @@
 package com.example.mobiledeveloping
 
-fun labwork4() {
-
+class LabWORK4 {
 }
