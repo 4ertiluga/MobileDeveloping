@@ -48,4 +48,11 @@ fun main() {
     println()
     val result1 = l2z2v3(150)
     println(result1)
+
+    println()
+    l2z3()
+    println()
+    l2z4()
+    println()
+    l2z5()
 }
