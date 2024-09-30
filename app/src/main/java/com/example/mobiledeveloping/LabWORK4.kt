@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -101,20 +102,19 @@ class LabWORK4 {
                 item {
                     Text(
                         modifier = Modifier
+
                             .padding(top = 60.dp, bottom = 20.dp, start = 10.dp), fontWeight = FontWeight.Bold, fontSize = 18.sp,
+
                         text = "Hello! That's your last chats"
                     )
                 }
                 items(100) { index ->
                     Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                        .drawBehind {
-                            drawLine(
-                                color = Color.Gray,
-                                start = of,
-                                end = Offset(size.width, size.height),
-                                strokeWidth = 1.dp.toPx())}){
+
+                        .border(0.1.dp, color = Color.Black)
+                        )
+                    {
 
 
 
