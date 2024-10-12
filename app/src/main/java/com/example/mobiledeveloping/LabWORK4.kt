@@ -128,7 +128,7 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel = viewMode
 @Composable
 fun ChatList(paddingValues: PaddingValues, navController: NavController){
         LazyColumn(
-            modifier = Modifier.fillMaxSize1()
+            modifier = Modifier.fillMaxSize2()
 
         ) {
 
