@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
@@ -28,11 +29,14 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
@@ -54,15 +58,18 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavController, viewModel: MainViewModel = viewModel()) {
     val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
         topBar = {
@@ -79,7 +86,6 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel = viewMode
                 }
             )
         },
-
         bottomBar = {
             BottomAppBar {
                 Row(
@@ -87,24 +93,22 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel = viewMode
                         .fillMaxWidth()
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
-
-
                 ) {
-                    IconButton(onClick = {viewModel.onCalendarClick()}) {
+                    IconButton(onClick = { viewModel.onCalendarClick() }) {
                         Icon(
                             Icons.Filled.DateRange,
                             contentDescription = "Date Icon",
                             Modifier.size(100.dp)
                         )
                     }
-                    IconButton(onClick = {viewModel.onHomeClick()}) {
+                    IconButton(onClick = { viewModel.onHomeClick() }) {
                         Icon(
                             Icons.Filled.Home,
                             contentDescription = "Home Icon",
                             Modifier.size(100.dp)
                         )
                     }
-                    IconButton(onClick = {viewModel.onProfileClick()}) {
+                    IconButton(onClick = { viewModel.onProfileClick() }) {
                         Icon(
                             Icons.Filled.AccountCircle,
                             contentDescription = "Account Icon",
@@ -113,13 +117,11 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel = viewMode
                     }
                 }
             }
-
         },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { paddingValues ->
-
-
-        when{
-            viewModel.isProfileClicked.value -> Profile(paddingValues)
+        when {
+            viewModel.isProfileClicked.value -> Profile(paddingValues, snackbarHostState)
             viewModel.isHomeClicked.value -> ChatList(paddingValues, navController)
             viewModel.isCalendarClicked.value -> Calendar(paddingValues)
         }
@@ -128,7 +130,7 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel = viewMode
 @Composable
 fun ChatList(paddingValues: PaddingValues, navController: NavController){
         LazyColumn(
-            modifier = Modifier.fillMaxSize(1)
+            modifier = Modifier.fillMaxSize()
 
         ) {
 
@@ -150,8 +152,9 @@ fun ChatList(paddingValues: PaddingValues, navController: NavController){
 
                         .border(0.1.dp, color = Color.Black)
                         .clickable {
-                            navController.navigate(Screens.ChatScreen.screenName)
-                        }
+                            navController.navigate("${Screens.ChatScreen.screenName}/$index")
+
+                        },
                 )
                 {
 
@@ -198,64 +201,76 @@ fun ChatList(paddingValues: PaddingValues, navController: NavController){
                             text = "That a simple example for chat number $index. I just want to see this text on two lines so that you can try to make a restriction",
                             fontSize = 14.sp,
                         )
+
                     }
                     }
+                }
+
+            }
+
+        }
+
+@Composable
+fun Profile(paddingValues: PaddingValues, snackbarHostState: SnackbarHostState) {
+    val scope = rememberCoroutineScope()
+
+    Box(
+        modifier = Modifier
+            .padding(paddingValues)
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = "Hello,Dear user.",
+                modifier = Modifier.padding(bottom = 15.dp),
+                fontSize = 30.sp
+            )
+            Row {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                    contentDescription = "Simple Image",
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(Color.LightGray)
+                        .size(120.dp)
+                )
+                Column {
+                    Text(
+                        text = "Bogdan Sidash",
+                        modifier = Modifier.padding(bottom = 10.dp, start = 5.dp),
+
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                    Text(
+                        text = "Age: 25",modifier = Modifier.padding(start = 5.dp),
+                        fontSize = 20.sp
+                    )
                 }
             }
         }
 
-@Composable
-fun Profile(paddingValues: PaddingValues) {
-    Column(
-        modifier = Modifier
-            .padding(paddingValues)
-            .fillMaxSize()
-            .padding(16.dp),
-
-    ) {
-
-        Text(
-            text = "Hello,Dear user.",
-
-            modifier = Modifier.padding(bottom = 8.dp),
-            fontSize = 30.sp
-
-        )
-        Row{
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground), // Замените на ваш ресурс иконки
-            contentDescription = "Simple Image", modifier = Modifier
-                .clip(CircleShape)
-                .background(Color.LightGray)
-                .size(120.dp)
-        )
-
-
-
-
-        Column {
-
-
-        Text(
-            text = "Bogdan Sidash",
-
-            modifier = Modifier.padding(bottom = 10.dp),
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp
-        )
-
-
-        Text(
-            text = "Age: 25",
-            fontSize = 20.sp
-
-        )
+        Button(
+            onClick = {
+                scope.launch {
+                    snackbarHostState.showSnackbar("Profile Updated")
+                }
+            },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 35.dp)
+        ) {
+            Text("Update Profile")
         }
-        }
-}
+    }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun Calendar(paddingValues: PaddingValues) {
     val today = LocalDate.now()
@@ -321,90 +336,80 @@ fun Calendar(paddingValues: PaddingValues) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatScreen(paddingValues: PaddingValues, navController: NavController){
+fun ChatScreen(navController: NavController, chatIndex: Int) {
     val messages = remember { mutableStateListOf<String>() }
-    val (newMessage, setNewMessage) = remember { mutableStateOf("") }
+    val newMessage = remember { mutableStateOf("") }
 
-    Column(
-        modifier = Modifier
-            .padding(paddingValues)
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        // Header with back button
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(onClick = { navController.popBackStack() }) {
-                Icon(
-                    Icons.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-            Text(
-                text = "Chat",
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(start = 8.dp)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Chat Number $chatIndex") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                }
             )
         }
-
-        // Chat messages
-        LazyColumn(
+    ) { paddingValues ->
+        Column(
             modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(messages) { message ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    horizontalArrangement = Arrangement.End
-                ) {
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
+                items(messages) { message ->
                     Text(
                         text = message,
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier
+                            .padding(vertical = 4.dp, horizontal = 8.dp)
+                            .background(Color.LightGray, shape = RoundedCornerShape(8.dp))
+                            .padding(8.dp)
+                    )
+                }
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextField(
+                    value = newMessage.value,
+                    onValueChange = { newMessage.value = it },
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp),
+                    placeholder = { Text("Enter your message") }
+                )
+                IconButton(
+                    onClick = {
+                        if (newMessage.value.isNotBlank()) {
+                            messages.add(newMessage.value)
+                            newMessage.value = ""
+                        }
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Send,
+                        contentDescription = "Send",
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             }
         }
-
-        // Input field for new message
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextField(
-                value = newMessage,
-                onValueChange = { setNewMessage(it) },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 8.dp),
-                placeholder = { Text("Type a message...") }
-            )
-            IconButton(onClick = {
-                if (newMessage.isNotBlank()) {
-                    messages.add(newMessage)
-                    setNewMessage("")
-                }
-            }) {
-                Icon(
-                    Icons.Filled.Send,
-                    contentDescription = "Send",
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-        }
     }
 }
-
 @Preview
 @Composable
 
