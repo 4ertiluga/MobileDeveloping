@@ -201,7 +201,7 @@ fun TabLayout() {
                     listOf(
                         WeatherModel(
                             "London",
-                            "10:00",
+                            "11:00",
                             "25°C",
                             "Sunny",
                             "//cdn.weatherapi.com/weather/64x64/day/176.png",
