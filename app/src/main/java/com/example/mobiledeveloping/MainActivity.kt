@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.mobiledeveloping.screens.MainScreen
 import com.example.mobiledeveloping.ui.theme.MobileDevelopingTheme
 import org.json.JSONObject
 
@@ -37,13 +38,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MobileDevelopingTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Madrid", this)
-                }
+                MainScreen()
+
             }
         }
     }
