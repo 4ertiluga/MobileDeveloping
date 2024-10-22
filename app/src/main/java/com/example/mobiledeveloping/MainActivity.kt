@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,13 +23,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.mobiledeveloping.screens.MainScreen
+import com.example.mobiledeveloping.screens.MainCard
+import com.example.mobiledeveloping.screens.TabLayout
 import com.example.mobiledeveloping.ui.theme.MobileDevelopingTheme
 import org.json.JSONObject
 
@@ -38,7 +43,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MobileDevelopingTheme {
-                MainScreen()
+                Image(
+                    painter = painterResource(id = R.drawable.weather_bg),
+                    contentDescription = "im1",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .alpha(0.7f),
+                    contentScale = ContentScale.Crop
+                )
+                Column {
+                    MainCard()
+                    TabLayout()
+                }
+
 
             }
         }
