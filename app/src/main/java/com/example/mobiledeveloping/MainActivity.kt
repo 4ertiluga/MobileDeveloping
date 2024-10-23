@@ -6,33 +6,20 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.mobiledeveloping.data.WeatherModel
+import com.example.mobiledeveloping.screens.DialogSearch
 import com.example.mobiledeveloping.screens.MainCard
 import com.example.mobiledeveloping.screens.TabLayout
 import com.example.mobiledeveloping.ui.theme.MobileDevelopingTheme
@@ -47,6 +34,10 @@ class MainActivity : ComponentActivity() {
                 val daysList = remember {
                     mutableStateOf(listOf<WeatherModel>())
                 }
+                val dialogState = remember {
+                    mutableStateOf(false)
+                }
+
                 val currentDay = remember {
                     mutableStateOf(WeatherModel(
                         "",
@@ -60,6 +51,11 @@ class MainActivity : ComponentActivity() {
                     )
                     )
                 }
+                if(dialogState.value){
+                    DialogSearch(dialogState, onSumbit = {
+                        getData(it, this, daysList, currentDay)
+                    })
+                }
                 getData("London", this, daysList, currentDay)
                 Image(
                     painter = painterResource(id = R.drawable.weather_bg),
@@ -70,7 +66,12 @@ class MainActivity : ComponentActivity() {
                     contentScale = ContentScale.Crop
                 )
                 Column {
-                    MainCard(currentDay)
+                    MainCard(currentDay, onClickSync = {
+                        getData("London", this@MainActivity, daysList, currentDay)
+                    }, onClickSearch = {
+                        dialogState.value = true
+                    }
+                    )
                     TabLayout(daysList, currentDay)
                 }
 
