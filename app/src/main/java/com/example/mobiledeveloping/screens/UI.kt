@@ -104,7 +104,7 @@ fun DialogSearch(dialogState: MutableState<Boolean>, onSumbit: (String) -> Unit)
                 onSumbit(dialogText.value)
                 dialogState.value = false
             }) {
-                Text(text = "OKe")
+                Text(text = "OK")
             }
         },
         dismissButton = {
