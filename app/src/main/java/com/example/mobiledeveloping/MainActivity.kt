@@ -60,7 +60,7 @@ class MainActivity : ComponentActivity() {
                         getData(it, this, daysList, currentDay)
                     })
                 }
-                getData("London", this, daysList, currentDay)
+                getData("Madrid", this, daysList, currentDay)
                 Image(
                     painter = painterResource(id = R.drawable.weather_bg),
                     contentDescription = "im1",
