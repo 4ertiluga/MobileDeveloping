@@ -8,5 +8,7 @@ data class WeatherModel(
     val icon: String,
     val maxTemp: String,
     val minTemp: String,
-    val hours: String
+    val hours: List<HourDto>
 )
+
+
