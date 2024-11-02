@@ -1,6 +1,5 @@
 package com.example.mobiledeveloping
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -15,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import com.example.mobiledeveloping.data.HourDto
 import com.example.mobiledeveloping.data.WeatherModel
 import com.example.mobiledeveloping.screens.DialogSearch
 import com.example.mobiledeveloping.screens.MainCard
@@ -25,7 +23,6 @@ import com.example.mobiledeveloping.ui.theme.MobileDevelopingTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -57,10 +54,10 @@ class MainActivity : ComponentActivity() {
                 }
                 if(dialogState.value){
                     DialogSearch(dialogState, onSumbit = {
-                        getData(it, this, daysList, currentDay)
+                        getData(it, daysList, currentDay)
                     })
                 }
-                getData("Madrid", this, daysList, currentDay)
+                getData("Madrid", daysList, currentDay)
                 Image(
                     painter = painterResource(id = R.drawable.weather_bg),
                     contentDescription = "im1",
@@ -71,7 +68,7 @@ class MainActivity : ComponentActivity() {
                 )
                 Column {
                     MainCard(currentDay, onClickSync = {
-                        getData("London", this@MainActivity, daysList, currentDay)
+                        getData("London", daysList, currentDay)
                     }, onClickSearch = {
                         dialogState.value = true
                     }
@@ -88,8 +85,7 @@ class MainActivity : ComponentActivity() {
 
 
 private fun getData(
-    city: String, context: Context,
-    daysList: MutableState<List<WeatherModel>>,
+    city: String, daysList: MutableState<List<WeatherModel>>,
     currentDay: MutableState<WeatherModel>
 ) {
     val retrofit: Retrofit = Retrofit.Builder()
