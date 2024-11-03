@@ -31,13 +31,12 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable(Routes.INFO_SCREEN){
-                        item?.let { it1 ->
-                            InfoScreen(it1)
+                        InfoScreen(item = item!!)
                         }
                     }
                 }
             }
         }
     }
-}
+
 
